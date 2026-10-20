@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OyisaTech CV Maker 🇿🇦</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,Arial,sans-serif}
+body{background:#f5f7fb;color:#222}
+.header{background:#0f172a;color:#fff;padding:18px;text-align:center}
+.header h1{font-size:20px}
+.container{display:flex;flex-wrap:wrap;gap:16px;padding:16px;max-width:1200px;margin:auto}
+.form{background:#fff;border-radius:14px;padding:16px;flex:1;min-width:300px;box-shadow:0 4px 12px rgba(0,0,0,.06)}
+.preview{flex:1;min-width:320px}
+label{font-weight:700;font-size:12px;margin-top:10px;display:block}
+input,textarea,select{width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-top:5px;font-size:13px}
+.btn{width:100%;padding:12px;border:none;border-radius:10px;font-weight:700;cursor:pointer;margin-top:10px}
+.btn-blue{background:#2563eb;color:#fff}
+.btn-black{background:#0f172a;color:#fff}
+.tmpl{display:flex;gap:6px;margin-top:6px}
+.tmpl button{flex:1;padding:8px;border:2px solid #ddd;border-radius:8px;background:#fff;font-size:11px;font-weight:700}
+.tmpl button.active{border-color:#2563eb;background:#eff6ff;color:#2563eb}
+#cv{background:#fff;padding:20px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.08);min-height:500px}
+.cv-h{border-bottom:3px solid #2563eb;padding-bottom:10px;margin-bottom:12px}
+.cv-s{margin-top:14px}.cv-s h3{font-size:11px;color:#2563eb;text-transform:uppercase;border-bottom:1px solid #eee;padding-bottom:3px;margin-bottom:6px}
+.pay{background:#fef3c7;border:1px solid #f59e0b;border-radius:10px;padding:10px;margin-top:12px;font-size:12px}
+</style>
+</head>
+<body>
+<div class="header">
+<h1>OYISATECH CV MAKER 🇿🇦</h1>
+<p style="font-size:12px;opacity:.8">Professional CVs that get jobs - R49 only</p>
+</div>
+<div class="container">
+<div class="form">
+<label>Template</label>
+<div class="tmpl">
+<button class="active" onclick="setT('pro',this)">Professional</button>
+<button onclick="setT('simple',this)">Simple</button>
+<button onclick="setT('modern',this)">Modern</button>
+</div>
+<label>Full Name</label><input id="name" placeholder="Oyisa Mthembu" oninput="upd()">
+<label>Job Title</label><input id="title" placeholder="Sales Assistant" oninput="upd()">
+<label>Phone</label><input id="phone" placeholder="063 480 0609" oninput="upd()">
+<label>Email</label><input id="email" placeholder="oyisa@email.com" oninput="upd()">
+<label>Location</label><input id="location" placeholder="Roodepoort, Gauteng" oninput="upd()">
+<label>Summary</label><textarea id="summary" rows="3" placeholder="Hardworking and reliable..." oninput="upd()"></textarea>
+<label>Education</label><textarea id="education" rows="3" placeholder="Grade 12 - Katlehong High - 2022" oninput="upd()"></textarea>
+<label>Work Experience</label><textarea id="experience" rows="4" placeholder="Cashier - Shoprite 2023-2024" oninput="upd()"></textarea>
+<label>Skills</label><input id="skills" placeholder="Customer Service, MS Word" oninput="upd()">
+<button class="btn btn-blue" onclick="dl()">💾 Download PDF - R49</button>
+<div class="pay">
+<b>How to unlock:</b><br>
+Pay R49 to 063 480 0609 (Capitec Pay/EFT)<br>
+Enter code after pay:<br>
+<input id="code" placeholder="Code: OYISA2026" style="margin-top:6px">
+<button class="btn btn-black" onclick="check()" style="margin-top:6px">Unlock Now</button>
+<p style="font-size:10px;margin-top:4px">Test code: OYISA2026 (change later for customers)</p>
+</div>
+</div>
+<div class="preview"><div id="cv"></div></div>
+</div>
+<script>
+let tmpl='pro';let unlocked=localStorage.getItem('cvUnlocked')=='true';
+function setT(t,el){tmpl=t;document.querySelectorAll('.tmpl button').forEach(b=>b.classList.remove('active'));el.classList.add('active');upd()}
+function upd(){
+let d={
+name:document.getElementById('name').value||'Your Name',
+title:document.getElementById('title').value||'Job Title',
+phone:document.getElementById('phone').value||'063 480 0609',
+email:document.getElementById('email').value||'email@example.com',
+location:document.getElementById('location').value||'Roodepoort',
+summary:document.getElementById('summary').value||'Motivated and hardworking professional seeking opportunity...',
+education:document.getElementById('education').value||'Grade 12 - Your School - 2023',
+experience:document.getElementById('experience').value||'Willing to learn - No experience yet',
+skills:document.getElementById('skills').value||'Hardworking, Punctual'
+};
+let h='';
+if(tmpl=='pro'){h=`<div class="cv-h"><h2>${d.name}</h2><p><b>${d.title}</b> | ${d.phone} | ${d.email} | ${d.location}</p></div><div class="cv-s"><h3>Summary</h3><p style="font-size:13px">${d.summary}</p></div><div class="cv-s"><h3>Education</h3><p style="font-size:13px;white-space:pre-line">${d.education}</p></div><div class="cv-s"><h3>Experience</h3><p style="font-size:13px;white-space:pre-line">${d.experience}</p></div><div class="cv-s"><h3>Skills</h3><p style="font-size:13px">${d.skills}</p></div>`}
+if(tmpl=='simple'){h=`<div style="text-align:center"><h2>${d.name}</h2><p>${d.title}</p><p style="font-size:12px">${d.phone} | ${d.email}</p></div><hr style="margin:10px 0"><div class="cv-s"><h3>About</h3><p style="font-size:13px">${d.summary}</p></div><div class="cv-s"><h3>Education</h3><p style="font-size:13px;white-space:pre-line">${d.education}</p></div><div class="cv-s"><h3>Experience</h3><p style="font-size:13px;white-space:pre-line">${d.experience}</p></div><div class="cv-s"><h3>Skills</h3><p style="font-size:13px">${d.skills}</p></div>`}
+if(tmpl=='modern'){h=`<div style="display:flex;gap:12px"><div style="flex:2"><div class="cv-h" style="border-color:#111"><h2>${d.name}</h2><p style="color:#2563eb;font-weight:700">${d.title}</p></div><div class="cv-s"><h3>Summary</h3><p style="font-size:13px">${d.summary}</p></div><div class="cv-s"><h3>Experience</h3><p style="font-size:13px;white-space:pre-line">${d.experience}</p></div></div><div style="flex:1;background:#f8fafc;padding:10px;border-radius:8px"><p style="font-size:11px"><b>Contact</b><br>${d.phone}<br>${d.email}<br>${d.location}</p><div class="cv-s"><h3>Education</h3><p style="font-size:11px;white-space:pre-line">${d.education}</p></div><div class="cv-s"><h3>Skills</h3><p style="font-size:11px">${d.skills}</p></div></div></div>`}
+document.getElementById('cv').innerHTML=h;
+let o={};['name','title','phone','email','location','summary','education','experience','skills'].forEach(id=>o[id]=document.getElementById(id).value);
+localStorage.setItem('cvData',JSON.stringify(o));
+}
+function dl(){if(unlocked){let el=document.getElementById('cv');html2pdf().set({margin:0.5,filename:`CV_${document.getElementById('name').value||'MyCV'}.pdf`,html2canvas:{scale:2},jsPDF:{unit:'in',format:'a4'}}).from(el).save()}else{alert('Pay R49 to 063 480 0609 then enter code OYISA2026');document.getElementById('code').focus()}}
+function check(){let c=document.getElementById('code').value.trim();if(c=='OYISA2026'||c=='OYISA'||c=='PAID'){unlocked=true;localStorage.setItem('cvUnlocked','true');alert('Unlocked! Download now');dl()}else{alert('Wrong code. WhatsApp proof to 063 480 0609')}}
+window.onload=function(){let s=localStorage.getItem('cvData');if(s){try{let o=JSON.parse(s);Object.keys(o).forEach(k=>{if(document.getElementById(k))document.getElementById(k).value=o[k]})}catch(e){}}upd()}
+</script>
+</body>
+  </html>
